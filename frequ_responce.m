@@ -1,5 +1,5 @@
 
-function [spectrum] = frequ_responce(time, gyro_data, thottle)
+function [spectrum, f] = frequ_responce(time, gyro_data, track, throttle)
 %FFT FREQUENCY RESPONCE
 
 %DEFINE SUB-SAMPLE SIZE
@@ -22,7 +22,7 @@ clean_data = zeros(sub_sample_size / 2 + 1,1000);
 for i = 1:total_samples-sub_sample_size
     
     %PERFORM FFT ON EACH SUB-SAMPLE
-    X = gryo_data(i:i+sub_sample_size,2);
+    X = gyro_data(i:i+sub_sample_size,track);
     Y = fft(X);
     P2 = abs(Y/L);
     P1 = P2(1:L/2+1);

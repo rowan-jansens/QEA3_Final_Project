@@ -40,7 +40,7 @@ for i=1:3
     f = Fs*(0:(L/2))/L;
     
     %PLOT
-    subplot(3,2,i)
+    subplot(3,1,i)
     hold on
     plot(f,P1, "color", colors(i,:), "LineWidth", 0.01) 
     set(gca,'Color', colors(4,:))
@@ -50,11 +50,6 @@ for i=1:3
     xlim([0,800])
     grid on 
     grid minor
-
-
-
-
-
 
 
     title(names(i), "Color", [1 1 1])
@@ -153,39 +148,11 @@ set(gcf, 'InvertHardcopy', 'off');
 print(gcf,'Responce.png','-dpng','-r600')
 
 %%
-for i=1:3
-    [throttle_spectrum(:,:,i), freqenucy_scale(:,:,i)]  = frequ_responce(time, gyro_data, i, throttle);
-    [fft_spectrum(:,:,i), fft_freqenucy_scale(:,:,i)] = fft_simple(time, gyro_data, i);
-    
-end
-%%
-% PLOT FOR THE THREE GYRO TRACKS
-
-names = ["Roll", "Pitch", "Yaw"];
-for i=1:3
-    figure(i)
-    clf
-    set(gcf, 'InvertHardcopy', 'off');
-    set(gcf,'Color','k')
-    frequ_responce_plot(spectrum(:,:,i), freqenucy_scale(:,:,i));
-    title(names(i),  "Color", [1 1 1])
-end
-
-
-%%
 figure(1)
 clf
-colors = [[0 255 26]./255 ; [255 0 119]./255 ; [0 123 255]./255;  0.1 0.1 0.1];
-names = ["Roll", "Pitch", "Yaw"];
-set(gcf,'Color','k')
-set(gcf, 'InvertHardcopy', 'off');
-
 for i=1:3
-    subplot(2,3,i)
-    frequ_responce_plot(spectrum(:,:,i), freqenucy_scale(:,:,i));
-    subplot(2,3,i+3)
-    fft_simple_plot(fft_spectrum(:,:,i), fft_freqenucy_scale(:,:,i), colors(:,i));
-
+    subplot(3,1,i)
+    [spectrum, freqenucy_scale]  = frequ_responce(time, gyro_data, i, throttle);
+    frequ_responce_plot();
 end
 
-% sgtitle("Frame Resonance Responce", "Color", [1 1 1])
