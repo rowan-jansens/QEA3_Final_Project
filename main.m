@@ -1,10 +1,9 @@
-
 %% READ IN DATA
-data = readtable("btfl_001.csv")
+data = readtable("btfl_001.csv");
 
 %TRIM DATA
-start_idx = 2000
-end_idx = 144000
+start_idx = 2000;
+end_idx = 144000;
 
 %PLOT TRACK
 % plot(data.loopIteration(start_idx:end_idx), data.debug_0_(start_idx:end_idx))
