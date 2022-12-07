@@ -176,13 +176,25 @@ end
 figure(1)
 clf
 colors = [[0 255 26]./255 ; [255 0 119]./255 ; [0 123 255]./255;  0.1 0.1 0.1];
+load("green_cmap.mat")
+load("blue_cmap.mat")
+load("pink_cmap.mat")
+map_colors(:,:,1) = green_cmap;
+map_colors(:,:,2) = pink_cmap;
+map_colors(:,:,3) = blue_cmap;
+
+
+
 names = ["Roll", "Pitch", "Yaw"];
 set(gcf,'Color','k')
 set(gcf, 'InvertHardcopy', 'off');
 
 for i=1:3
     subplot(2,3,i)
-    frequ_responce_plot(spectrum(:,:,i), freqenucy_scale(:,:,i));
+    hold on
+    h = frequ_responce_plot(throttle_spectrum(:,:,i), freqenucy_scale(:,:,i), map_colors(:,:,i));
+    
+    hold off
     subplot(2,3,i+3)
     fft_simple_plot(fft_spectrum(:,:,i), fft_freqenucy_scale(:,:,i), colors(:,i));
 

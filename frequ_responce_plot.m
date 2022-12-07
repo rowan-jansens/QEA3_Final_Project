@@ -1,11 +1,12 @@
 
-function frequ_responce_plot(data, f)
+function h = frequ_responce_plot(data, f, map_color)
 
 
-load("blue.mat");
-colormap(blue_map)
 
-surf(f, ([1000:2000]-999)./10, data', "EdgeColor", "none", 'FaceAlpha', 1)
+
+
+h = surf(f, ([1000:2000]-999)./10, data', "EdgeColor", "none", 'FaceAlpha', 1)
+% set(h, colormap, map_color)
 view(0,90)
 xlim([0,800])
 
