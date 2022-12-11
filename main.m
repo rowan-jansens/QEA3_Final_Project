@@ -2,11 +2,12 @@
 data = readtable("btfl_001.csv");
 
 %TRIM DATA
-start_idx = 2000;
+start_idx = 1600;
 end_idx = 144000;
 
 %PLOT TRACK
 % plot(data.loopIteration(start_idx:end_idx), data.debug_0_(start_idx:end_idx))
+% plot(data.loopIteration, data.debug_0_)
 
 %SAVE KEY TRACKS
 gyro_data = [data.debug_0_(start_idx:end_idx) data.debug_1_(start_idx:end_idx) data.debug_2_(start_idx:end_idx)];
@@ -176,6 +177,7 @@ end
 figure(1)
 clf
 colors = [[0 255 26]./255 ; [255 0 119]./255 ; [0 123 255]./255;  0.1 0.1 0.1];
+names = ["Roll", "Pitch", "Yaw"];
 load("green_cmap.mat")
 load("blue_cmap.mat")
 load("pink_cmap.mat")
@@ -189,15 +191,35 @@ names = ["Roll", "Pitch", "Yaw"];
 set(gcf,'Color','k')
 set(gcf, 'InvertHardcopy', 'off');
 
-for i=1:3
-    subplot(2,3,i)
-    hold on
-    h = frequ_responce_plot(throttle_spectrum(:,:,i), freqenucy_scale(:,:,i), map_colors(:,:,i));
-    
-    hold off
-    subplot(2,3,i+3)
-    fft_simple_plot(fft_spectrum(:,:,i), fft_freqenucy_scale(:,:,i), colors(:,i));
+h = tiledlayout(2,3)
 
+for i=1:3
+    nexttile(h)
+
+    hold on
+    if i ==1 
+        ylabel("Throttle (%)")
+    end
+    frequ_responce_plot(throttle_spectrum(:,:,i), freqenucy_scale(:,:,i), map_colors(:,:,i));
+    colormap(gca, map_colors(:,:,i));
+    title(names(i), "Color", [1 1 1])
 end
 
-% sgtitle("Frame Resonance Responce", "Color", [1 1 1])
+for i=1:3  
+    nexttile(h)
+    fft_simple_plot(fft_spectrum(:,:,i), fft_freqenucy_scale(:,:,i), colors(:,i));
+    if i ==1 
+        ylabel("Amplitude")
+    end
+end
+
+h.TileSpacing = 'compact';
+h.Padding = 'compact';
+
+xlabel(h, 'Frequency (Hz)', "Color", [1 1 1])
+
+set(gcf, "Position", [0 0 1300 800]);
+
+sgtitle("Frame Resonance Responce", "Color", [1 1 1])
+
+print(gcf,'Multi_image.png','-dpng','-r600')

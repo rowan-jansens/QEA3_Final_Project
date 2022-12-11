@@ -6,6 +6,10 @@ function fft_simple_plot(P1, f, p_color)
     set(gca,'YColor',[1 1 1])
     ylim([0,1])
     xlim([0,800])
+%     xlabel("Frequency (Hz)", "Color", [1 1 1])
+% 
+%     
+%     ylabel("Amplitude", "Color", [1 1 1])
     grid on 
     grid minor
 end
