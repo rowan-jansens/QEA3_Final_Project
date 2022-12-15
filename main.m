@@ -200,6 +200,7 @@ for i=1:3
     if i ==1 
         ylabel("Throttle (%)")
     end
+    
     frequ_responce_plot(throttle_spectrum(:,:,i), freqenucy_scale(:,:,i), map_colors(:,:,i));
     colormap(gca, map_colors(:,:,i));
     title(names(i), "Color", [1 1 1])
@@ -208,9 +209,11 @@ end
 for i=1:3  
     nexttile(h)
     fft_simple_plot(fft_spectrum(:,:,i), fft_freqenucy_scale(:,:,i), colors(:,i));
+
     if i ==1 
         ylabel("Amplitude")
     end
+
 end
 
 h.TileSpacing = 'compact';
@@ -223,3 +226,86 @@ set(gcf, "Position", [0 0 1300 800]);
 sgtitle("Frame Resonance Responce", "Color", [1 1 1])
 
 print(gcf,'Multi_image.png','-dpng','-r600')
+
+%% Individual
+
+
+
+colors = [[0 255 26]./255 ; [255 0 119]./255 ; [0 123 255]./255;  0.1 0.1 0.1];
+names = ["Roll", "Pitch", "Yaw"];
+load("green_cmap.mat")
+load("blue_cmap.mat")
+load("pink_cmap.mat")
+map_colors(:,:,1) = green_cmap;
+map_colors(:,:,2) = pink_cmap;
+map_colors(:,:,3) = blue_cmap;
+
+
+
+names = ["Roll", "Pitch", "Yaw"];
+
+
+
+for i=1:3
+
+    figure(i)
+clf
+
+    set(gcf,'Color','k')
+set(gcf, 'InvertHardcopy', 'off');
+
+
+        
+
+    frequ_responce_plot(throttle_spectrum(:,:,i), freqenucy_scale(:,:,i), map_colors(:,:,i));
+    xline(214, "LineWidth", 0.5, "Color", [1 1 1], "LabelVerticalAlignment","top", "LabelHorizontalAlignment","center", "LineStyle", "--", "Label", "214");
+    xline(277, "LineWidth", 0.5, "Color", [1 1 1], "LabelVerticalAlignment","top", "LabelHorizontalAlignment","center", "LineStyle", "-.", "Label", "277");
+    colormap(gca, map_colors(:,:,i));
+    title(names(i), "Color", [1 1 1])
+    ylabel("Throttle (%)")
+    xlabel('Frequency (Hz)', "Color", [1 1 1])
+    lgd = legend("", "1st Predicted Mode", "2nd Predicted Mode", 'TextColor', [1 1 1], "location", "southeast");
+    set(gcf, "Position", [0 0 600 400]);
+    xlim([0,800])
+
+
+
+
+set(lgd,'color','none');
+print(gcf,names(i) + '_res.png','-dpng','-r600')
+
+
+end
+%%
+
+
+for i=1:3  
+
+    figure(i)
+clf
+
+    set(gcf,'Color','k')
+set(gcf, 'InvertHardcopy', 'off');
+
+    fft_simple_plot(fft_spectrum(:,:,i), fft_freqenucy_scale(:,:,i), colors(:,i));
+        xline(214, "LineWidth", 0.5, "Color", [1 1 1], "LabelVerticalAlignment","top", "LabelHorizontalAlignment","center", "LineStyle", "--", "Label", "214");
+    xline(277, "LineWidth", 0.5, "Color", [1 1 1], "LabelVerticalAlignment","top", "LabelHorizontalAlignment","center", "LineStyle", "-.", "Label", "277");
+
+
+
+
+        title(names(i), "Color", [1 1 1])
+    ylabel("Amplitude")
+    xlabel('Frequency (Hz)', "Color", [1 1 1])
+    set(gcf, "Position", [0 0 600 400]);
+    lgd = legend("", "1st Predicted Mode", "2nd Predicted Mode", 'TextColor', [1 1 1]);
+
+
+print(gcf,names(i) + '_fft.png','-dpng','-r600')
+end
+
+
+
+
+
+

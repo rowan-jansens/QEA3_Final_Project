@@ -1,6 +1,6 @@
 function fft_simple_plot(P1, f, p_color)
 
-    plot(f,P1, "color", p_color, "LineWidth", 0.01) 
+    plot(f,P1, "color", p_color, "LineWidth", 0.4) 
     set(gca,'Color', [0.1 0.1 0.1])
     set(gca,'XColor',[1 1 1])
     set(gca,'YColor',[1 1 1])
